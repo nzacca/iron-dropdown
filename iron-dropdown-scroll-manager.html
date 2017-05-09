@@ -44,6 +44,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     ];
 
     /**
+     * Singleton used to allow scroll lock listeners to unregister properly.
+     */
+    var captureParameters = {
+      capture: true,
+      passive: false
+    };
+
+    /**
      * The IronDropdownScrollManager is intended to provide a central source
      * of authority and control over which elements in a document are currently
      * allowed to scroll.
@@ -213,11 +221,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this._scrollInteractionHandler.bind(this);
         for (var i = 0, l = scrollEvents.length; i < l; i++) {
           // NOTE: browsers that don't support objects as third arg will
-          // interpret it as boolean, hence useCapture = true in this case. 
-          document.addEventListener(scrollEvents[i], this._boundScrollHandler, {
-            capture: true,
-            passive: false
-          });
+          // interpret it as boolean, hence useCapture = true in this case.
+          document.addEventListener(scrollEvents[i], this._boundScrollHandler, captureParameters);
         }
       },
 
@@ -225,10 +230,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         for (var i = 0, l = scrollEvents.length; i < l; i++) {
           // NOTE: browsers that don't support objects as third arg will
           // interpret it as boolean, hence useCapture = true in this case.
-          document.removeEventListener(scrollEvents[i], this._boundScrollHandler, {
-            capture: true,
-            passive: false
-          });
+          document.removeEventListener(scrollEvents[i], this._boundScrollHandler, captureParameters);
         }
       },
 
